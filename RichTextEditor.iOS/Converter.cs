@@ -37,11 +37,28 @@ namespace RichTextEditor
 
 					var newDescriptor = defaultFont.FontDescriptor;
 
+					bool hasBoldFlag = false;
+					bool hasItalicFlag = false;
+
 					if (oldDescriptor.SymbolicTraits.HasFlag(UIFontDescriptorSymbolicTraits.Bold))
+					{
+						hasBoldFlag = true;
+					}
+					if (oldDescriptor.SymbolicTraits.HasFlag(UIFontDescriptorSymbolicTraits.Italic))
+					{
+						hasItalicFlag = true;
+					}
+
+					if (hasBoldFlag && hasItalicFlag)
+					{
+						uint traitsInt = (uint)UIFontDescriptorSymbolicTraits.Bold + (uint)UIFontDescriptorSymbolicTraits.Italic;
+						newDescriptor = newDescriptor.CreateWithTraits((UIFontDescriptorSymbolicTraits)traitsInt);
+					}
+					else if (hasBoldFlag)
 					{
 						newDescriptor = newDescriptor.CreateWithTraits(UIFontDescriptorSymbolicTraits.Bold);
 					}
-					if (oldDescriptor.SymbolicTraits.HasFlag(UIFontDescriptorSymbolicTraits.Italic))
+					else if (hasItalicFlag)
 					{
 						newDescriptor = newDescriptor.CreateWithTraits(UIFontDescriptorSymbolicTraits.Italic);
 					}
@@ -70,7 +87,7 @@ namespace RichTextEditor
 			NSError error = new NSError();
 			var data = attributedString.GetDataFromRange(range, dictionary, ref error);
 			var htmlString = new NSString(data, NSStringEncoding.UTF8);
-
+			Console.WriteLine("Uncleaned HTML: " + htmlString);
 			var cleanHtml = CleanHtml(htmlString);
 			return cleanHtml;
 		}
@@ -225,12 +242,13 @@ namespace RichTextEditor
 				else if (tag.StartsWith("span"))
 				{
 					var spanName = tag.Substring(tag.IndexOf("\"") + 1, 2);
-					Console.WriteLine("Span Name: " + spanName);
+					Console.WriteLine("Span: " + tag);
 					if (spans.ContainsKey(spanName))
 					{
 						var newTags = spans[spanName];
 						foreach (string newTag in newTags)
 						{
+							Console.WriteLine("New Tag: " + newTag);
 							newHtmlString += "<" + newTag + ">";
 						}
 						newHtmlString += innerHtml;

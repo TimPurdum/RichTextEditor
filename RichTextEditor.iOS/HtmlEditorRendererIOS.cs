@@ -13,6 +13,11 @@ namespace RichTextEditor
 		HtmlEditor ThisEditor;
 		NSMutableAttributedString AttributedText;
 
+		public HtmlEditorRendererIOS()
+		{
+			
+		}
+
 		protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
 		{
 			System.Diagnostics.Debug.WriteLine("Renderer Created");
@@ -23,6 +28,7 @@ namespace RichTextEditor
 			{
 				ThisEditor = (HtmlEditor)e.NewElement;
 				ThisEditor.HtmlRequested += OnHtmlRequested;
+				ThisEditor.HtmlSet += OnHtmlSet;
 				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
 
 			}
@@ -30,6 +36,7 @@ namespace RichTextEditor
 			{
 				var oldEditor = (HtmlEditor)e.OldElement;
 				oldEditor.HtmlRequested -= OnHtmlRequested;
+				oldEditor.HtmlSet -= OnHtmlSet;
 				oldEditor.StyleChangeRequested -= OnStyleChangeRequested;
 			}
 		}
@@ -37,7 +44,13 @@ namespace RichTextEditor
 		private void OnHtmlRequested(object sender, EventArgs e)
 		{
 			var editor = (HtmlEditor)sender;
-			editor.HtmlString = ConverterIOS.AttributedStringToHtml(Control.AttributedText);
+			editor.SetHtmlText(ConverterIOS.AttributedStringToHtml(Control.AttributedText));
+		}
+
+		private void OnHtmlSet(object sender, HtmlEditor.HtmlArgs e)
+		{
+			var htmlString = e.HtmlToPass;
+			Control.AttributedText = ConverterIOS.HtmlToAttributedString(htmlString);
 		}
 
 		private void OnStyleChangeRequested(object sender, HtmlEditor.StyleArgs e)

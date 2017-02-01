@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.Text.Style;
 using Android.Graphics;
+using Android.Views;
 using RichTextEditor;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
@@ -35,13 +36,14 @@ namespace RichTextEditor
 			{
 				ThisEditor = (HtmlEditor)e.NewElement;
 				ThisEditor.HtmlRequested += OnHtmlRequested;
+				ThisEditor.HtmlSet += OnHtmlSet;
 				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
-
 			}
 			if (e.OldElement != null)
 			{
 				var oldEditor = (HtmlEditor)e.OldElement;
 				oldEditor.HtmlRequested -= OnHtmlRequested;
+				oldEditor.HtmlSet -= OnHtmlSet;
 				oldEditor.StyleChangeRequested -= OnStyleChangeRequested;
 			}
 		}
@@ -49,7 +51,13 @@ namespace RichTextEditor
 		private void OnHtmlRequested(object sender, EventArgs e)
 		{
 			var editor = (HtmlEditor)sender;
-			editor.HtmlString = ConverterDroid.SpannedToHtml(Control.EditableText);
+			editor.SetHtmlText(ConverterDroid.SpannedToHtml(Control.EditableText));
+		}
+
+		private void OnHtmlSet(object sender, HtmlEditor.HtmlArgs e)
+		{
+			var htmlString = e.HtmlToPass;
+			Control.TextFormatted = ConverterDroid.HtmlToSpanned(htmlString);
 		}
 
 		private void OnStyleChangeRequested(object sender, HtmlEditor.StyleArgs e)
@@ -195,4 +203,13 @@ namespace RichTextEditor
 			Control.SetSelection(selectionStart, selectionEnd);
 		}
 	}
+	/*
+	class StyleCallback : ActionMode.Callback2
+	{
+		public override bool OnCreateActionMode(ActionMode mode, IMenu menu)
+		{
+			var inflater = mode.MenuInflater;
+			inflater.
+		}
+	}*/
 }

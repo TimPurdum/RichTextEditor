@@ -11,11 +11,24 @@ namespace RichTextEditor
 		}
 
 		public event EventHandler HtmlRequested;
+		public event EventHandler<HtmlArgs> HtmlSet;
 
-		public string HtmlString
+		string HtmlString;
+
+		public void SetHtmlText(string htmlString)
 		{
-			private get;
-			set;
+			HtmlString = htmlString;
+			var args = new HtmlArgs(htmlString);
+			HtmlSet(this, args);
+		}
+
+		public class HtmlArgs : EventArgs
+		{
+			public string HtmlToPass;
+			public HtmlArgs(string htmlToPass)
+			{
+				HtmlToPass = htmlToPass;
+			}
 		}
 
 		public string GetHtmlText()
@@ -48,6 +61,11 @@ namespace RichTextEditor
 			{
 				Style = style;
 			}
+		}
+
+		bool CanPaste()
+		{
+			return false;
 		}
 	}
 }
