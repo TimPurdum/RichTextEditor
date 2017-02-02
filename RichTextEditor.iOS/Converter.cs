@@ -94,6 +94,7 @@ namespace RichTextEditor
 
 		static string CleanHtml(string htmlString)
 		{
+			
 			var collection = SplitIntoTags(htmlString);
 			var styleAndBody = FindStyleAndBody(collection);
 			var style = styleAndBody.Item1;
@@ -123,6 +124,8 @@ namespace RichTextEditor
 						tag += repeatTag;
 						repeatTag++;
 					}
+					//Trim line breaks
+					innerHtml = innerHtml.Trim(new char[] { '\n', '\r' });
 					collection.Add(tag, innerHtml);
 					inTag = true;
 					tag = "";
@@ -144,6 +147,7 @@ namespace RichTextEditor
 					innerHtml += c;
 				}
 			}
+
 			collection.Add(tag, innerHtml);
 			return collection;
 		}
@@ -246,15 +250,16 @@ namespace RichTextEditor
 					if (spans.ContainsKey(spanName))
 					{
 						var newTags = spans[spanName];
-						foreach (string newTag in newTags)
+						for (int j = 0; j < newTags.Count; j++)
 						{
-							Console.WriteLine("New Tag: " + newTag);
-							newHtmlString += "<" + newTag + ">";
+							Console.WriteLine("New Tag: " + newTags[j]);
+							newHtmlString += "<" + newTags[j] + ">";
 						}
 						newHtmlString += innerHtml;
-						foreach (string newTag in newTags)
+						// add closing tags in reverse order
+						for (int k = newTags.Count - 1; k >= 0; k--)
 						{
-							newHtmlString += "</" + newTag + ">";
+							newHtmlString += "</" + newTags[k] + ">";
 						}
 					}
 					else

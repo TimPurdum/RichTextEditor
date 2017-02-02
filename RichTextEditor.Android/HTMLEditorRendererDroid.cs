@@ -23,7 +23,13 @@ namespace RichTextEditor
 
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			System.Diagnostics.Debug.WriteLine("Property Change Called to Renderer!");
+			SetSelection();
+		}
+
+		private void SetSelection()
+		{
+			ThisEditor.SelectionStart = Control.SelectionStart;
+			ThisEditor.SelectionEnd = Control.SelectionEnd;
 		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)

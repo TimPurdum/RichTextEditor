@@ -4,6 +4,7 @@ using UIKit;
 using RichTextEditor;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
+using System.ComponentModel;
 
 [assembly: ExportRenderer(typeof(HtmlEditor), typeof(HtmlEditorRendererIOS))]
 namespace RichTextEditor
@@ -39,6 +40,18 @@ namespace RichTextEditor
 				oldEditor.HtmlSet -= OnHtmlSet;
 				oldEditor.StyleChangeRequested -= OnStyleChangeRequested;
 			}
+		}
+
+		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			base.OnElementPropertyChanged(sender, e);
+			SetSelection(Control.SelectedRange);
+		}
+
+		private void SetSelection(NSRange selection)
+		{
+			ThisEditor.SelectionStart = (int)selection.Location;
+			ThisEditor.SelectionEnd = (int)(selection.Location + selection.Length);
 		}
 
 		private void OnHtmlRequested(object sender, EventArgs e)

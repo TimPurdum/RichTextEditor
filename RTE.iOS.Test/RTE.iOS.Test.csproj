@@ -112,7 +112,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="UnitTestAppDelegate.cs" />
-    <Compile Include="MyTest.cs" />
+    <Compile Include="IOSTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RichTextEditor.iOS\RichTextEditor.iOS.csproj">

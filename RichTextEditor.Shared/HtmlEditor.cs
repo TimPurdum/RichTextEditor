@@ -6,14 +6,18 @@ namespace RichTextEditor
 {
 	public class HtmlEditor : Editor, INotifyPropertyChanged
 	{
-		public HtmlEditor()
-		{
-		}
-
 		public event EventHandler HtmlRequested;
 		public event EventHandler<HtmlArgs> HtmlSet;
+		public event EventHandler<StyleArgs> StyleChangeRequested;
 
 		string HtmlString;
+		public int SelectionStart;
+		public int SelectionEnd;
+
+		public HtmlEditor()
+		{
+			
+		}
 
 		public void SetHtmlText(string htmlString)
 		{
@@ -36,8 +40,6 @@ namespace RichTextEditor
 			HtmlRequested(this, EventArgs.Empty);
 			return HtmlString;
 		}
-
-		public event EventHandler<StyleArgs> StyleChangeRequested;
 
 		public void BoldChanged()
 		{
@@ -62,10 +64,12 @@ namespace RichTextEditor
 				Style = style;
 			}
 		}
-
+		/*
 		bool CanPaste()
 		{
 			return false;
-		}
+		}*/
+
+
 	}
 }
