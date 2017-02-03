@@ -1,79 +1,21 @@
 ﻿using System;
 using Foundation;
 using UIKit;
-using RichTextEditor;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.iOS;
-using System.ComponentModel;
-
-[assembly: ExportRenderer(typeof(HtmlEditor), typeof(HtmlEditorRendererIOS))]
 namespace RichTextEditor
 {
-	public class HtmlEditorRendererIOS : EditorRenderer
+	/*public class HtmlEditorControllerIOS : HtmlEditorController
 	{
-		HtmlEditor ThisEditor;
-		NSMutableAttributedString AttributedText;
+		NSAttributedString AttributedText;
+		UITextView Control;
 
-		public HtmlEditorRendererIOS()
+		public HtmlEditorControllerIOS(HtmlEditor editor)
 		{
-			System.Diagnostics.Debug.WriteLine("Renderer Started!");
-			Console.WriteLine("Starting Renderer!");
+			Control = editor;
 		}
 
-		protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
+		public void BoldClicked()
 		{
-			System.Diagnostics.Debug.WriteLine("Element Changed Called in Renderer!");
-
-			base.OnElementChanged(e);
-			if (e.NewElement != null)
-			{
-				ThisEditor = (HtmlEditor)e.NewElement;
-				ThisEditor.HtmlRequested += OnHtmlRequested;
-				ThisEditor.HtmlSet += OnHtmlSet;
-				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
-				ThisEditor.RegisteredWithRenderer = true;
-			}
-			if (e.OldElement != null)
-			{
-				var oldEditor = (HtmlEditor)e.OldElement;
-				oldEditor.HtmlRequested -= OnHtmlRequested;
-				oldEditor.HtmlSet -= OnHtmlSet;
-				oldEditor.StyleChangeRequested -= OnStyleChangeRequested;
-			}
-		}
-
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			ThisEditor = (HtmlEditor)sender;
-			if (!ThisEditor.RegisteredWithRenderer)
-			{
-				Console.WriteLine("Registered with Renderer!");
-				ThisEditor.HtmlRequested += OnHtmlRequested;
-				ThisEditor.HtmlSet += OnHtmlSet;
-				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
-				ThisEditor.RegisteredWithRenderer = true;
-			}
-
-			base.OnElementPropertyChanged(sender, e);
-			SetSelection(Control.SelectedRange);
-		}
-
-		private void SetSelection(NSRange selection)
-		{
-			ThisEditor.SelectionStart = (int)selection.Location;
-			ThisEditor.SelectionEnd = (int)(selection.Location + selection.Length);
-		}
-
-		private void OnHtmlRequested(object sender, EventArgs e)
-		{
-			var editor = (HtmlEditor)sender;
-			editor.SetHtmlText(ConverterIOS.AttributedStringToHtml(Control.AttributedText));
-		}
-
-		private void OnHtmlSet(object sender, HtmlEditor.HtmlArgs e)
-		{
-			var htmlString = e.HtmlToPass;
-			Control.AttributedText = ConverterIOS.HtmlToAttributedString(htmlString);
+			
 		}
 
 		private void OnStyleChangeRequested(object sender, HtmlEditor.StyleArgs e)
@@ -131,7 +73,7 @@ namespace RichTextEditor
 
 			if (!hasFlag)
 			{
-				
+
 				AttributedText.EnumerateAttribute(UIStringAttributeKey.Font, selectionRange, NSAttributedStringEnumeration.None, (NSObject value, NSRange range, ref bool stop) =>
 				{
 					if (value != null)
@@ -181,5 +123,5 @@ namespace RichTextEditor
 			Control.BecomeFirstResponder();
 			Control.SelectedRange = selectionRange;
 		}
-	}
+	}*/
 }

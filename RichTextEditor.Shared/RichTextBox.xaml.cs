@@ -51,6 +51,11 @@ namespace RichTextEditor
 			{
 				TextField.UnderlineChanged();
 			};
+
+			HTMLButton.Clicked += (sender, e) =>
+			{
+				TextField.GetHtmlText();
+			};
 		}
 	}
 }

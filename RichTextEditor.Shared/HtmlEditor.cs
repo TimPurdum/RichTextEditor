@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace RichTextEditor
 {
-	public class HtmlEditor : Editor, INotifyPropertyChanged
+	public class HtmlEditor : Editor
 	{
 		public event EventHandler HtmlRequested;
 		public event EventHandler<HtmlArgs> HtmlSet;
@@ -13,6 +13,7 @@ namespace RichTextEditor
 		string HtmlString;
 		public int SelectionStart;
 		public int SelectionEnd;
+		public bool RegisteredWithRenderer = false;
 
 		public HtmlEditor()
 		{
@@ -37,11 +38,12 @@ namespace RichTextEditor
 
 		public string GetHtmlText()
 		{
-			HtmlRequested(this, EventArgs.Empty);
+			
+			HtmlRequested(this, new EventArgs());
 			return HtmlString;
 		}
 
-		public void BoldChanged()
+		public virtual void BoldChanged()
 		{
 			StyleChangeRequested(this, new StyleArgs("bold"));
 		}

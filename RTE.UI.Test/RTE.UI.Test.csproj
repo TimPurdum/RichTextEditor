@@ -40,13 +40,5 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RTE.iOS.Test\RTE.iOS.Test.csproj">
-      <Project>{5DF2D479-3D52-4E3D-AE26-20714C79C766}</Project>
-      <Name>RTE.iOS.Test</Name>
-      <ReferenceOutputAssembly>False</ReferenceOutputAssembly>
-      <Private>False</Private>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

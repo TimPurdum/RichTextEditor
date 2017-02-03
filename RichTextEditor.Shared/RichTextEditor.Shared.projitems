@@ -21,5 +21,7 @@
       <DependentUpon>RichTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)HtmlEditor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HtmlEditorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StyleButtonTriggerAction.cs" />
   </ItemGroup>
 </Project>

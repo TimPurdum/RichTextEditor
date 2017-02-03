@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:local="clr-namespace:RichTextEditor"
 	x:Class="RichTextEditor.RichTextBox">
+
 	<ContentView.Content>
 		<StackLayout
 		Orientation="Vertical"
@@ -12,8 +13,13 @@
 			HasShadow="false"
 			Padding="0">
 			<local:HtmlEditor
-				x:Name="TextField"
-			/>
+				x:Name="TextField">
+				    <local:HtmlEditor.Triggers>
+				        <DataTrigger TargetType="HtmlEditor"
+							Binding="{Binding Source={x:Reference Bold},
+							Path=Clicked}"></DataTrigger>
+					</local:HtmlEditor.Triggers>
+				</local:HtmlEditor>
 		</Frame>
 		<StackLayout
 			Orientation="Horizontal"
@@ -28,7 +34,7 @@
 				BorderColor="Blue"
 				BorderWidth="0.3"
 				VerticalOptions="Start"
-				Margin="10, 0" />
+				Margin="10, 0"/>
 			<Button
 				x:Name="Italic"
 				Text="I"
@@ -42,6 +48,15 @@
 			<Button
 				x:Name="Underline"
 				Text="U"
+				BackgroundColor="White"
+				BorderColor="Blue"
+				BorderWidth="0.3"
+				VerticalOptions="Start"
+				Margin="10, 0"
+			/>
+			<Button
+				x:Name="HTMLButton"
+				Text="HTML"
 				BackgroundColor="White"
 				BorderColor="Blue"
 				BorderWidth="0.3"
