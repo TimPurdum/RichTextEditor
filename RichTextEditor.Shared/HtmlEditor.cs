@@ -4,7 +4,7 @@ using Xamarin.Forms;
 
 namespace RichTextEditor
 {
-	public class HtmlEditor : Editor
+	public class HtmlEditor : Editor, INotifyPropertyChanged
 	{
 		public event EventHandler HtmlRequested;
 		public event EventHandler<HtmlArgs> HtmlSet;
@@ -13,7 +13,6 @@ namespace RichTextEditor
 		string HtmlString;
 		public int SelectionStart;
 		public int SelectionEnd;
-		public bool RegisteredWithRenderer = false;
 
 		public HtmlEditor()
 		{

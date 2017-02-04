@@ -2,7 +2,7 @@
 <ContentView
 	xmlns ="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-	xmlns:local="clr-namespace:RichTextEditor"
+	xmlns:rte="clr-namespace:RichTextEditor"
 	x:Class="RichTextEditor.RichTextBox">
 
 	<ContentView.Content>
@@ -12,14 +12,10 @@
 		<Frame
 			HasShadow="false"
 			Padding="0">
-			<local:HtmlEditor
-				x:Name="TextField">
-				    <local:HtmlEditor.Triggers>
-				        <DataTrigger TargetType="HtmlEditor"
-							Binding="{Binding Source={x:Reference Bold},
-							Path=Clicked}"></DataTrigger>
-					</local:HtmlEditor.Triggers>
-				</local:HtmlEditor>
+				<rte:HtmlEditor
+					x:Name="ContentEditor"
+					x:FieldModifier="public"
+				/>
 		</Frame>
 		<StackLayout
 			Orientation="Horizontal"

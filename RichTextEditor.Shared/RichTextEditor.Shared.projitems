@@ -9,9 +9,6 @@
     <Import_RootNamespace>RichTextEditor</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)MyClass.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)RichTextBox.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -22,6 +19,5 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)HtmlEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HtmlEditorController.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)StyleButtonTriggerAction.cs" />
   </ItemGroup>
 </Project>

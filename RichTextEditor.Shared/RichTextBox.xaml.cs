@@ -6,17 +6,20 @@ namespace RichTextEditor
 {
 	public partial class RichTextBox : ContentView
 	{
+		public HtmlEditor TextEditor;
+
 		public RichTextBox()
 		{
 			InitializeComponent();
 			RegisterButtons();
 			HideButtons();
+			TextEditor = ContentEditor;
 
-			TextField.Focused += (sender, e) =>
+			TextEditor.Focused += (sender, e) =>
 			{
 				ShowButtons();
 			};
-			TextField.Unfocused += (sender, e) =>
+			TextEditor.Unfocused += (sender, e) =>
 			{
 				HideButtons();
 			};
@@ -39,22 +42,22 @@ namespace RichTextEditor
 			Bold.Clicked += (sender, e) =>
 			{
 				System.Diagnostics.Debug.WriteLine("Bold Clicked!");
-				TextField.BoldChanged();
+				TextEditor.BoldChanged();
 			};
 
 			Italic.Clicked += (sender, e) =>
 			{
-				TextField.ItalicChanged();
+				TextEditor.ItalicChanged();
 			};
 
 			Underline.Clicked += (sender, e) =>
 			{
-				TextField.UnderlineChanged();
+				TextEditor.UnderlineChanged();
 			};
 
 			HTMLButton.Clicked += (sender, e) =>
 			{
-				TextField.GetHtmlText();
+				TextEditor.GetHtmlText();
 			};
 		}
 	}

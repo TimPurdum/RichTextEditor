@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RichTextEditor
+namespace RichTextEditor.Shared
 {
 	public interface HtmlEditorController
 	{

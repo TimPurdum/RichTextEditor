@@ -17,7 +17,6 @@ namespace RichTextEditor
 		public HtmlEditorRendererIOS()
 		{
 			System.Diagnostics.Debug.WriteLine("Renderer Started!");
-			Console.WriteLine("Starting Renderer!");
 		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
@@ -27,11 +26,11 @@ namespace RichTextEditor
 			base.OnElementChanged(e);
 			if (e.NewElement != null)
 			{
+				System.Diagnostics.Debug.WriteLine("Registering Event Handlers!");
 				ThisEditor = (HtmlEditor)e.NewElement;
 				ThisEditor.HtmlRequested += OnHtmlRequested;
 				ThisEditor.HtmlSet += OnHtmlSet;
 				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
-				ThisEditor.RegisteredWithRenderer = true;
 			}
 			if (e.OldElement != null)
 			{
@@ -44,17 +43,8 @@ namespace RichTextEditor
 
 		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
-			ThisEditor = (HtmlEditor)sender;
-			if (!ThisEditor.RegisteredWithRenderer)
-			{
-				Console.WriteLine("Registered with Renderer!");
-				ThisEditor.HtmlRequested += OnHtmlRequested;
-				ThisEditor.HtmlSet += OnHtmlSet;
-				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
-				ThisEditor.RegisteredWithRenderer = true;
-			}
-
 			base.OnElementPropertyChanged(sender, e);
+			System.Diagnostics.Debug.WriteLine("Property change sent: " + e.PropertyName);
 			SetSelection(Control.SelectedRange);
 		}
 

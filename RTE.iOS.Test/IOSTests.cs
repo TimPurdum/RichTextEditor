@@ -11,18 +11,6 @@ namespace RTE.iOS.Test
 	[TestFixture]
 	public class IOSTests
 	{
-
-		HtmlEditor OpenNewUIController()
-		{
-			
-			UINavigationController root = (UINavigationController)UIApplication.SharedApplication.KeyWindow.RootViewController;
-			var vc = new UIViewController();
-			root.PresentViewControllerAsync(vc, true);
-			//vc.View.Add(TestEditor);
-
-			return TestEditor;
-		}
-
 		string HtmlString = "<p>Hello, <b>Bold</b> <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
 		HtmlEditor TestEditor = new HtmlEditor();
 
@@ -45,9 +33,8 @@ namespace RTE.iOS.Test
 		[Test]
 		public void SetHtmlInEditor()
 		{
-			var testEditor = OpenNewUIController();
-			testEditor.SetHtmlText(HtmlString);
-			Console.WriteLine("Text set: " + testEditor.Text);
+			TestEditor.SetHtmlText(HtmlString);
+			Console.WriteLine("Text set: " + TestEditor.Text);
 		}
 
 		[Test]
@@ -60,10 +47,9 @@ namespace RTE.iOS.Test
 		}
 
 		[Test]
-		[Ignore("another time")]
-		public void Ignore()
+		public void RegisterRenderer()
 		{
-			Assert.True(false);
+			var box = new RichTextBox();
 		}
 	}
 }

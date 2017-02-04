@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-
+using Xamarin.Forms;
 using Foundation;
 using UIKit;
 using MonoTouch.NUnit.UI;
@@ -27,6 +27,7 @@ namespace RTE.iOS.Test
 		//
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
+			Forms.Init();
 			// create a new window instance based on the screen size
 			window = new UIWindow(UIScreen.MainScreen.Bounds);
 			runner = new TouchRunner(window);
