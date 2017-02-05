@@ -68,7 +68,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="HtmlEditorRendererIOS.cs" />
-    <Compile Include="RichTextBoxRendererIOS.cs" />
     <Compile Include="ButtonCustomRendererIOS.cs" />
     <Compile Include="RegisterEditorIOS.cs" />
   </ItemGroup>

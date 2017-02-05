@@ -9,14 +9,6 @@
     <Import_RootNamespace>RichTextEditor</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)RichTextBox.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)RichTextBox.xaml.cs">
-      <DependentUpon>RichTextBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)HtmlEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StyleBar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TestableButton.cs" />

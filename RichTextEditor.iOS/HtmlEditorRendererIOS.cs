@@ -181,8 +181,8 @@ namespace RichTextEditor
 		{
 			Control.AttributedText = AttributedText;
 			Control.BecomeFirstResponder();
-			Control.SelectedRange = selectionRange;
 			SetTypingAttributes();
+			Control.SelectedRange = selectionRange;
 		}
 
 		void OnSelectionChanged(object sender, HtmlEditor.SelectionArgs args)

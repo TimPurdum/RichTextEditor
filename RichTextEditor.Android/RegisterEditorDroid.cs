@@ -2,24 +2,22 @@
 using Xamarin.Forms;
 using RichTextEditor;
 
-[assembly: Xamarin.Forms.Dependency(typeof(RegisterEditorIOS))]
+[assembly: Xamarin.Forms.Dependency(typeof(RegisterEditorDroid))]
 namespace RichTextEditor
 {
-	public class RegisterEditorIOS : RegisterEditor
+	public class RegisterEditorDroid
 	{
-		public RegisterEditorIOS()
+		public RegisterEditorDroid()
 		{
 			MessagingCenter.Subscribe<HtmlEditor>(this, "register", (editor) =>
 			{
-				var renderer = new HtmlEditorRendererIOS();
+				var renderer = new HtmlEditorRendererDroid();
 				renderer.SetElement(editor);
-
-
 			});
 
 			MessagingCenter.Subscribe<TestableButton>(this, "register", (button) =>
 			{
-				var renderer = new ButtonCustomRendererIOS();
+				var renderer = new ButtonCustomRendererDroid();
 				renderer.SetElement(button);
 			});
 		}
