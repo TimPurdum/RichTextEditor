@@ -11,7 +11,6 @@ namespace RichTextEditor
 	{
 		public RichTextBoxRendererIOS()
 		{
-			System.Diagnostics.Debug.WriteLine("Rich Text Box Renderer Created!");
 		}
 
 		protected override void OnElementChanged(ElementChangedEventArgs<ContentView> e)
@@ -22,11 +21,6 @@ namespace RichTextEditor
 				var box = (RichTextBox)e.NewElement;
 				var editorRenderer = new HtmlEditorRendererIOS();
 				editorRenderer.SetElement(box.TextEditor);
-				System.Diagnostics.Debug.WriteLine("New Element!");
-			}
-			if (e.OldElement != null)
-			{
-				System.Diagnostics.Debug.WriteLine("Old Element!");
 			}
 		}
 	}

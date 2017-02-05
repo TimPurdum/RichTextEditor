@@ -13,6 +13,10 @@ namespace RichTextEditor
 	{
 		HtmlEditor ThisEditor;
 		NSMutableAttributedString AttributedText;
+		UIFont CurrentFont;
+		NSMutableDictionary CurrentTypingAttributes = new NSMutableDictionary();
+		bool CurrentUnderline;
+		bool ChangeUnderline;
 
 		public HtmlEditorRendererIOS()
 		{
@@ -21,15 +25,17 @@ namespace RichTextEditor
 
 		protected override void OnElementChanged(ElementChangedEventArgs<Editor> e)
 		{
-			System.Diagnostics.Debug.WriteLine("Element Changed Called in Renderer!");
+			System.Diagnostics.Debug.WriteLine("Renderer Element Changed.");
 
 			base.OnElementChanged(e);
 			if (e.NewElement != null)
 			{
 				System.Diagnostics.Debug.WriteLine("Registering Event Handlers!");
 				ThisEditor = (HtmlEditor)e.NewElement;
+				Control.ScrollEnabled = false;
 				ThisEditor.HtmlRequested += OnHtmlRequested;
 				ThisEditor.HtmlSet += OnHtmlSet;
+				ThisEditor.SelectionChangeHandler += OnSelectionChanged;
 				ThisEditor.StyleChangeRequested += OnStyleChangeRequested;
 			}
 			if (e.OldElement != null)
@@ -37,6 +43,7 @@ namespace RichTextEditor
 				var oldEditor = (HtmlEditor)e.OldElement;
 				oldEditor.HtmlRequested -= OnHtmlRequested;
 				oldEditor.HtmlSet -= OnHtmlSet;
+				oldEditor.SelectionChangeHandler -= OnSelectionChanged;
 				oldEditor.StyleChangeRequested -= OnStyleChangeRequested;
 			}
 		}
@@ -45,13 +52,10 @@ namespace RichTextEditor
 		{
 			base.OnElementPropertyChanged(sender, e);
 			System.Diagnostics.Debug.WriteLine("Property change sent: " + e.PropertyName);
-			SetSelection(Control.SelectedRange);
-		}
-
-		private void SetSelection(NSRange selection)
-		{
-			ThisEditor.SelectionStart = (int)selection.Location;
-			ThisEditor.SelectionEnd = (int)(selection.Location + selection.Length);
+			if(e.PropertyName.Equals("Text"))
+			{
+				Control.SizeToFit();
+			}
 		}
 
 		private void OnHtmlRequested(object sender, EventArgs e)
@@ -68,8 +72,12 @@ namespace RichTextEditor
 
 		private void OnStyleChangeRequested(object sender, HtmlEditor.StyleArgs e)
 		{
-			AttributedText = (NSMutableAttributedString)Control.AttributedText;
-			Console.WriteLine("Style Change Requested!");
+			AttributedText = new NSMutableAttributedString(Control.AttributedText);
+			if (Control.TypingAttributes != null)
+			{
+				CurrentTypingAttributes = new NSMutableDictionary(Control.TypingAttributes);
+			}
+			System.Diagnostics.Debug.WriteLine("Rendering Style Change: " + e.Style);
 
 			if (e.Style == "bold")
 			{
@@ -86,6 +94,7 @@ namespace RichTextEditor
 				var underlineAttr = UIStringAttributeKey.UnderlineStyle;
 				UpdateUnderlineAttributes();
 			}
+			SaveChanges(Control.SelectedRange);
 		}
 
 		void UpdateStyleAttributes(UIFontDescriptorSymbolicTraits fontAttr)
@@ -115,6 +124,7 @@ namespace RichTextEditor
 							newFont = UIFont.BoldSystemFontOfSize(font.PointSize);
 						}
 						AttributedText.AddAttribute(UIStringAttributeKey.Font, newFont, range);
+						CurrentFont = newFont;
 					}
 				}
 			});
@@ -129,14 +139,15 @@ namespace RichTextEditor
 						var font = (UIFont)value;
 						var descriptor = font.FontDescriptor;
 						var traits = descriptor.SymbolicTraits;
-						var newDescriptor = descriptor.CreateWithTraits(fontAttr);
+						var newTraits = (UIFontDescriptorSymbolicTraits)((uint)fontAttr + (uint)traits);
+						var newDescriptor = descriptor.CreateWithTraits(newTraits);
 						var newFont = UIFont.FromDescriptor(newDescriptor, font.PointSize);
 						AttributedText.RemoveAttribute(UIStringAttributeKey.Font, range);
 						AttributedText.AddAttribute(UIStringAttributeKey.Font, newFont, range);
+						CurrentFont = newFont;
 					}
 				});
 			}
-			SaveChanges(selectionRange);
 		}
 
 		void UpdateUnderlineAttributes()
@@ -144,25 +155,26 @@ namespace RichTextEditor
 			var selectionRange = Control.SelectedRange;
 			bool hasFlag = false;
 
-			AttributedText.EnumerateAttribute(UIStringAttributeKey.UnderlineStyle, selectionRange, NSAttributedStringEnumeration.None, (NSObject value, NSRange range, ref bool stop) =>
+			AttributedText.EnumerateAttribute(UIStringAttributeKey.UnderlineStyle, selectionRange, NSAttributedStringEnumeration.LongestEffectiveRangeNotRequired, (NSObject value, NSRange range, ref bool stop) =>
 			{
 				if (value != null)
 				{
-					var style = (NSString)value;
-					if (style == "Single")
+					var style = (NSNumber)value;
+					if (style.Equals(1))
 					{
 						hasFlag = true;
 						AttributedText.RemoveAttribute(UIStringAttributeKey.UnderlineStyle, range);
+						CurrentUnderline = false;
 					}
 				}
 			});
 
 			if (!hasFlag)
 			{
-				AttributedText.AddAttribute(UIStringAttributeKey.UnderlineStyle, (NSString)"Single", selectionRange);
+				AttributedText.AddAttribute(UIStringAttributeKey.UnderlineStyle, (NSNumber)1, selectionRange);
+				CurrentUnderline = true;
 			}
-
-			SaveChanges(selectionRange);
+			ChangeUnderline = true;
 		}
 
 		void SaveChanges(NSRange selectionRange)
@@ -170,6 +182,38 @@ namespace RichTextEditor
 			Control.AttributedText = AttributedText;
 			Control.BecomeFirstResponder();
 			Control.SelectedRange = selectionRange;
+			SetTypingAttributes();
+		}
+
+		void OnSelectionChanged(object sender, HtmlEditor.SelectionArgs args)
+		{
+			var start = args.Start;
+			var end = args.End;
+			Control.SelectedRange = new NSRange(start, (end - start));
+			ThisEditor.SelectionStart = start;
+			ThisEditor.SelectionEnd = end;
+		}
+
+		void SetTypingAttributes()
+		{
+			if (CurrentFont != null)
+			{
+				var name = CurrentFont.Name;
+				CurrentTypingAttributes[UIStringAttributeKey.Font] = CurrentFont;
+				if (ChangeUnderline)
+				{
+					if (CurrentUnderline)
+					{
+						CurrentTypingAttributes[UIStringAttributeKey.UnderlineStyle] = (NSNumber)1;
+					}
+					else
+					{
+						CurrentTypingAttributes[UIStringAttributeKey.UnderlineStyle] = (NSNumber)0;
+					}
+					ChangeUnderline = false;
+				}
+				Control.TypingAttributes = CurrentTypingAttributes;
+			}
 		}
 	}
 }

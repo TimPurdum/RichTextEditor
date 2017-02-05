@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Xamarin.Forms;
 using Foundation;
 using UIKit;
+using RichTextEditor;
 using MonoTouch.NUnit.UI;
 
 namespace RTE.iOS.Test
@@ -18,6 +19,7 @@ namespace RTE.iOS.Test
 		UIWindow window;
 		TouchRunner runner;
 
+		RegisterEditorIOS register = new RegisterEditorIOS();
 		//
 		// This method is invoked when the application has loaded and is ready to run. In this 
 		// method you should instantiate the window, load the UI into it and then make the window
@@ -28,6 +30,7 @@ namespace RTE.iOS.Test
 		public override bool FinishedLaunching(UIApplication app, NSDictionary options)
 		{
 			Forms.Init();
+
 			// create a new window instance based on the screen size
 			window = new UIWindow(UIScreen.MainScreen.Bounds);
 			runner = new TouchRunner(window);

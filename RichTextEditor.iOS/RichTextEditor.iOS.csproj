@@ -69,6 +69,8 @@
     <Compile Include="Converter.cs" />
     <Compile Include="HtmlEditorRendererIOS.cs" />
     <Compile Include="RichTextBoxRendererIOS.cs" />
+    <Compile Include="ButtonCustomRendererIOS.cs" />
+    <Compile Include="RegisterEditorIOS.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

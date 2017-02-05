@@ -12,7 +12,23 @@ namespace RTE.iOS.Test
 	public class IOSTests
 	{
 		string HtmlString = "<p>Hello, <b>Bold</b> <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
-		HtmlEditor TestEditor = new HtmlEditor();
+		HtmlEditor TestEditor;
+		StyleBar TestStyleBar;
+
+		public IOSTests()
+		{
+		}
+
+		[SetUp]
+		public void SetupBeforeTest()
+		{
+			TestEditor = new HtmlEditor();
+
+			TestStyleBar = new StyleBar();
+
+			System.Diagnostics.Debug.WriteLine("Setting up test!");
+
+		}
 
 		[Test]
 		public void ConvertHtml()
@@ -41,15 +57,80 @@ namespace RTE.iOS.Test
 		public void AddBold()
 		{
 			TestEditor.SetHtmlText(HtmlString);
-			TestEditor.SelectionStart = 0;
-			TestEditor.SelectionEnd = 4;
-			TestEditor.BoldChanged();
+			TestEditor.SetSelection(0, 5);
+			TestStyleBar.BoldButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p><b>Hello</b>, <b>Bold</b> <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
+			Assert.AreEqual(expected, result);
 		}
 
 		[Test]
-		public void RegisterRenderer()
+		public void RemoveBold()
 		{
-			var box = new RichTextBox();
+			TestEditor.SetHtmlText(HtmlString);
+			TestEditor.SetSelection(7, 11);
+			TestStyleBar.BoldButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p>Hello, Bold <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void AddItalics()
+		{
+			TestEditor.SetHtmlText(HtmlString);
+			TestEditor.SetSelection(7, 11);
+			TestStyleBar.ItalicButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p>Hello, <b><i>Bold</i></b> <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void RemoveItalics()
+		{
+			TestEditor.SetHtmlText(HtmlString);
+			TestEditor.SetSelection(19, 26);
+			TestStyleBar.ItalicButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p>Hello, <b>Bold</b> <i>italic</i> <b>flavor!</b></p><p><u>Underline</u> this?</p>";
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void AddUnderline()
+		{
+			TestEditor.SetHtmlText(HtmlString);
+			TestEditor.SetSelection(0, 5);
+			TestStyleBar.UnderlineButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p><u>Hello</u>, <b>Bold</b> <i>italic</i> <b><i>flavor!</i></b></p><p><u>Underline</u> this?</p>";
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void RemoveUnderline()
+		{
+			TestEditor.SetHtmlText(HtmlString);
+			TestEditor.SetSelection(27, 36);
+			TestStyleBar.UnderlineButton.TestClick();
+			var result = TestEditor.GetHtmlText();
+			var expected = "<p>Hello, <b>Bold</b> <i>italic</i> <b><i>flavor!</i></b></p><p>Underline this?</p>";
+			Assert.AreEqual(expected, result);
+		}
+
+		[Test]
+		public void ChangeAWord()
+		{
+			TestEditor.SetHtmlText(HtmlString);
+		}
+
+		[Test]
+		public void SendStyleFromStyleBar()
+		{
+			var styleBar = new StyleBar();
+			TestEditor.SetHtmlText(HtmlString);
+
 		}
 	}
 }

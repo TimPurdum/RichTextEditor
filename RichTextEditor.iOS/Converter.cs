@@ -65,10 +65,6 @@ namespace RichTextEditor
 
 					var newFont = UIFont.FromDescriptor(newDescriptor, defaultSize);
 
-					Console.WriteLine("Old font: " + oldFont.Name);
-
-					Console.WriteLine("New font: " + newFont.Name);
-
 					attrString.RemoveAttribute(UIStringAttributeKey.Font, range);
 					attrString.AddAttribute(UIStringAttributeKey.Font, newFont, range);
 				}
@@ -87,7 +83,6 @@ namespace RichTextEditor
 			NSError error = new NSError();
 			var data = attributedString.GetDataFromRange(range, dictionary, ref error);
 			var htmlString = new NSString(data, NSStringEncoding.UTF8);
-			Console.WriteLine("Uncleaned HTML: " + htmlString);
 			var cleanHtml = CleanHtml(htmlString);
 			return cleanHtml;
 		}
@@ -246,13 +241,11 @@ namespace RichTextEditor
 				else if (tag.StartsWith("span"))
 				{
 					var spanName = tag.Substring(tag.IndexOf("\"") + 1, 2);
-					Console.WriteLine("Span: " + tag);
 					if (spans.ContainsKey(spanName))
 					{
 						var newTags = spans[spanName];
 						for (int j = 0; j < newTags.Count; j++)
 						{
-							Console.WriteLine("New Tag: " + newTags[j]);
 							newHtmlString += "<" + newTags[j] + ">";
 						}
 						newHtmlString += innerHtml;

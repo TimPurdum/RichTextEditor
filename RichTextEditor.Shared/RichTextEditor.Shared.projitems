@@ -18,6 +18,8 @@
       <DependentUpon>RichTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)HtmlEditor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)HtmlEditorController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StyleBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TestableButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RegisterEditor.cs" />
   </ItemGroup>
 </Project>
