@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RTEImplementation"
+             x:Class="RTEImplementation.MainPage"
+             xmlns:richTextEditor="clr-namespace:RichTextEditor;assembly=RichTextEditor">
+    <ContentPage.Content>
+        <StackLayout
+            VerticalOptions="CenterAndExpand">
+            <Label Text="Rich Text Editor with Buttons." />
+            <richTextEditor:StyleBar></richTextEditor:StyleBar>
+            <richTextEditor:HtmlEditor Text="Editor"></richTextEditor:HtmlEditor>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

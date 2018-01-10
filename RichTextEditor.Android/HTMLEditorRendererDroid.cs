@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using Android.Text;
 using System.ComponentModel;
+using Android.Content;
 
 [assembly: ExportRenderer(typeof(HtmlEditor), typeof(HtmlEditorRendererDroid))]
 namespace RichTextEditor
@@ -16,12 +17,17 @@ namespace RichTextEditor
 		HtmlEditor ThisEditor;
 		IEditable EditableText;
 
-		public HtmlEditorRendererDroid()
+		public HtmlEditorRendererDroid(Context context): base(context)
 		{
 			
 		}
 
-		protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
+	    public HtmlEditorRendererDroid()
+	    {
+
+	    }
+
+	    protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			SetSelection();
 		}
