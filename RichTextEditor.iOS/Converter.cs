@@ -238,7 +238,23 @@ namespace RichTextEditor
 				{
 					newHtmlString += "</p>" + innerHtml;
 				}
-				else if (tag.StartsWith("span"))
+                else if (tag.StartsWith("ul"))
+                {
+                    newHtmlString += "<ul>" + innerHtml;
+                }
+                else if (tag.StartsWith("/ul"))
+                {
+                    newHtmlString += "</ul>" + innerHtml;
+                }
+                else if (tag.StartsWith("li"))
+                {
+                    newHtmlString += "<li>" + innerHtml;
+                }
+                else if (tag.StartsWith("/li"))
+                {
+                    newHtmlString += "</li>" + innerHtml;
+                }
+                else if (tag.StartsWith("span"))
 				{
 					var spanName = tag.Substring(tag.IndexOf("\"") + 1, 2);
 					if (spans.ContainsKey(spanName))
