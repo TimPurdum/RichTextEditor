@@ -31,6 +31,7 @@ namespace RichTextEditor
 				{
 					inTag = true;
 					newString += c;
+                    continue;
 				}
 				else if (inTag)
 				{
@@ -41,13 +42,15 @@ namespace RichTextEditor
 							pTag = true;
 						}
 						newString += c;
-					}
+                        continue;
+                    }
 					if (c == '>')
 					{
 						inTag = false;
 						pTag = false;
 						newString += c;
-					}
+                        continue;
+                    }
 				}
 				else
 				{
